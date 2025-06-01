@@ -1,0 +1,435 @@
+/* Reset dan override Bootstrap untuk mempertahankan desain custom */
+:root {
+  --primary-color: #3b82f6;
+  --primary-hover: #2563eb;
+  --sidebar-width: 260px;
+  --navbar-height: 80px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  background-color: #f8fafc !important;
+  color: #334155 !important;
+  overflow-x: hidden;
+}
+
+/* Override Bootstrap container */
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  max-width: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: white;
+  border-right: 1px solid #e2e8f0;
+  padding: 1.5rem 0;
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+  z-index: 1050;
+}
+
+.sidebar.collapsed {
+  transform: translateX(-100%);
+}
+
+.logo {
+  padding: 0 1.5rem 2rem 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 1.5rem;
+}
+
+.logo h1 {
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  color: #1e293b !important;
+  margin-bottom: 0 !important;
+}
+
+.logo::before {
+  content: "</>";
+  color: var(--primary-color);
+  margin-right: 0.5rem;
+  font-weight: bold;
+}
+
+.nav-section {
+  margin-bottom: 2rem;
+}
+
+.nav-section h3 {
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  color: #64748b !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0 1.5rem;
+  margin-bottom: 0.75rem !important;
+}
+
+.nav-item {
+  display: flex !important;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  color: #64748b !important;
+  text-decoration: none !important;
+  transition: all 0.2s;
+  border-right: 3px solid transparent;
+  border-radius: 0 !important;
+}
+
+.nav-item:hover {
+  background-color: #f1f5f9 !important;
+  color: #1e293b !important;
+}
+
+.nav-item.active {
+  background-color: #eff6ff !important;
+  color: var(--primary-color) !important;
+  border-right-color: var(--primary-color);
+}
+
+.nav-item::before {
+  content: "";
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 1rem;
+  background-size: contain;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+
+.nav-item[data-icon="dashboard"]::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z'/%3E%3C/svg%3E");
+}
+
+.nav-item[data-icon="ruangan"]::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'%3E%3C!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--%3E%3Cpath d='M320 32c0-9.9-4.5-19.2-12.3-25.2S289.8-1.4 280.2 1l-179.9 45C79 51.3 64 70.5 64 92.5L64 448l-32 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l64 0 192 0 32 0 0-32 0-448zM256 256c0 17.7-10.7 32-24 32s-24-14.3-24-32s10.7-32 24-32s24 14.3 24 32zm96-128l96 0 0 352c0 17.7 14.3 32 32 32l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-32 0 0-320c0-35.3-28.7-64-64-64l-96 0 0 64z'/%3E%3C/svg%3E");
+}
+
+.nav-item[data-icon="jadwal"]::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-calendar-event' viewBox='0 0 16 16'%3E%3Cpath d='M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z'/%3E%3Cpath d='M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z'/%3E%3C/svg%3E");
+}
+
+.nav-item[data-icon="booking"]::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-archive' viewBox='0 0 16 16'%3E%3Cpath d='M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5'/%3E%3C/svg%3E");
+}
+
+.nav-item[data-icon="laporan"]::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-folder2' viewBox='0 0 16 16'%3E%3Cpath d='M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v7a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 12.5zM2.5 3a.5.5 0 0 0-.5.5V6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3zM14 7H2v5.5a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5z'/%3E%3C/svg%3E");
+}
+
+.nav-item[data-icon="riwayat"]::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-clock-history' viewBox='0 0 16 16'%3E%3Cpath d='M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022zm2.004.45a7 7 0 0 0-.985-.299l.219-.976q.576.129 1.126.342zm1.37.71a7 7 0 0 0-.439-.27l.493-.87a8 8 0 0 1 .979.654l-.615.789a7 7 0 0 0-.418-.302zm1.834 1.79a7 7 0 0 0-.653-.796l.724-.69q.406.429.747.91zm.744 1.352a7 7 0 0 0-.214-.468l.893-.45a8 8 0 0 1 .45 1.088l-.95.313a7 7 0 0 0-.179-.483m.53 2.507a7 7 0 0 0-.1-1.025l.985-.17q.1.58.116 1.17zm-.131 1.538q.05-.254.081-.51l.993.123a8 8 0 0 1-.23 1.155l-.964-.267q.069-.247.12-.501m-.952 2.379q.276-.436.486-.908l.914.405q-.24.54-.555 1.038zm-.964 1.205q.183-.183.35-.378l.758.653a8 8 0 0 1-.401.432z'/%3E%3Cpath d='M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0z'/%3E%3Cpath d='M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5'/%3E%3C/svg%3E");
+}
+
+.nav-item[data-icon="login"]::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1'/%3E%3C/svg%3E");
+}
+
+.nav-item[data-icon="register"]::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z'/%3E%3C/svg%3E");
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s ease;
+  min-height: 100vh;
+}
+
+.main-content.expanded {
+  margin-left: 0;
+}
+
+/* Navbar */
+.custom-navbar {
+  background-color: white !important;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 1rem 2rem !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 2rem 0 2rem;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  transition: margin 0.3s ease, border-radius 0.3s ease;
+  height: auto !important;
+  min-height: var(--navbar-height);
+}
+
+.custom-navbar.full-width {
+  margin: 0;
+  border-radius: 0 !important;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.menu-toggle {
+  background: none !important;
+  border: none !important;
+  cursor: pointer;
+  padding: 0.5rem !important;
+  border-radius: 0.5rem !important;
+  transition: background-color 0.2s;
+  color: inherit !important;
+}
+
+.menu-toggle:hover {
+  background-color: #f1f5f9 !important;
+}
+
+.search-container {
+  position: relative;
+}
+
+.search-input {
+  width: 350px !important;
+  padding: 0.75rem 1rem 0.75rem 2.5rem !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 0.5rem !important;
+  font-size: 0.875rem !important;
+  color: #64748b !important;
+  background-color: #f8fafc !important;
+  transition: all 0.2s;
+  box-shadow: none !important;
+}
+
+.search-input:focus {
+  outline: none !important;
+  border-color: var(--primary-color) !important;
+  background-color: white !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+.search-input::placeholder {
+  color: #9ca3af !important;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.notifications {
+  background: none !important;
+  border: none !important;
+  cursor: pointer;
+  padding: 0.5rem !important;
+  border-radius: 0.5rem !important;
+  transition: background-color 0.2s;
+  position: relative;
+  color: inherit !important;
+}
+
+.notifications:hover {
+  background-color: #f1f5f9 !important;
+}
+
+.notifications::after {
+  content: "";
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: #ef4444;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 0.5rem !important;
+  border-radius: 0.5rem !important;
+  transition: background-color 0.2s;
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+.user-profile:hover {
+  background-color: #f1f5f9 !important;
+  color: inherit !important;
+}
+
+.user-avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.user-name {
+  font-weight: 500 !important;
+  color: #1e293b !important;
+  white-space: nowrap;
+}
+
+/* Content Area */
+.content {
+  flex: 1;
+  padding: 2rem;
+  margin: 0 2rem 2rem 2rem;
+  transition: margin 0.3s ease;
+  background-color: transparent !important;
+}
+
+.content.full-width {
+  margin: 0;
+}
+
+.welcome-section {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.welcome-title {
+  font-size: 3rem !important;
+  font-weight: 700 !important;
+  color: #1e293b !important;
+  margin-bottom: 1rem !important;
+}
+
+.welcome-subtitle {
+  font-size: 1.125rem !important;
+  color: #64748b !important;
+  margin-bottom: 2rem !important;
+}
+
+.welcome-button {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  padding: 0.75rem 2rem !important;
+  border: none !important;
+  border-radius: 0.5rem !important;
+  font-weight: 500 !important;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  text-decoration: none !important;
+  display: inline-block;
+}
+
+.welcome-button:hover {
+  background-color: var(--primary-hover) !important;
+  color: white !important;
+}
+
+/* Mobile Sidebar Overlay */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+  display: none;
+}
+
+.sidebar-overlay.active {
+  display: block;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    width: var(--sidebar-width);
+  }
+
+  .sidebar:not(.collapsed) {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  .custom-navbar {
+    margin: 1rem;
+  }
+
+  .custom-navbar.full-width {
+    margin: 0;
+  }
+
+  .search-input {
+    width: 200px !important;
+  }
+
+  .content {
+    margin: 0 1rem 1rem 1rem;
+  }
+
+  .content.full-width {
+    margin: 0;
+  }
+
+  .user-name {
+    display: none;
+  }
+
+  .welcome-title {
+    font-size: 2rem !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .search-input {
+    width: 150px !important;
+  }
+
+  .navbar-left {
+    gap: 0.5rem;
+  }
+
+  .navbar-right {
+    gap: 0.5rem;
+  }
+}
