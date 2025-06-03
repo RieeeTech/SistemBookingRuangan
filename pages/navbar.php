@@ -23,7 +23,7 @@
 
                     <div class="user-profile">
                         <div class="user-avatar">SB</div>
-                        <span class="user-name">Stebin Ben</span>
+                        <span class="user-name"><?= $_SESSION['nama_lengkap']; ?></span>
                     </div>
                 </div>
             </header>

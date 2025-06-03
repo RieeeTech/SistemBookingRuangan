@@ -188,7 +188,7 @@ if(isset($_POST["hapus"])){
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keluar</button>
-            <button type="submir" name="hapus" class="btn btn-danger">Hapus</button>
+            <button type="submit" name="hapus" class="btn btn-danger">Hapus</button>
           </div>
       </form>
       </div>

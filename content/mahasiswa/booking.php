@@ -24,7 +24,7 @@ function generateBookingId($conn) {
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id_jadwal = (int)$_POST['id_jadwal'];
+    $id_jadwal = $_POST['id_jadwal'];
     $keperluan = trim($_POST['keperluan']);
     $id_user = $_SESSION['user_id'];
     $kelas = $_POST['kelas'];
@@ -36,10 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         // Cek apakah jadwal masih tersedia
         $query_check = "SELECT tj.*, tr.nama
-                        FROM tb_jadwal tj 
-                        JOIN tb_ruangan tr ON tj.id_ruangan = tr.id 
+                        FROM tb_jadwal tj
                         
+                        JOIN tb_ruangan tr ON tj.id_ruangan = tr.id 
                         WHERE tj.id = ? AND tj.status = 'Kosong'";
+
         $stmt_check = $conn->prepare($query_check);
         $stmt_check->bind_param('i', $id_jadwal);
         $stmt_check->execute();
@@ -65,12 +66,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $stmt_insert = $conn->prepare($query_insert);
                 $stmt_insert->bind_param('siis', $id_booking, $id_user, $id_jadwal, $keperluan);
                 
-                $set_jadwal = $conn->prepare("UPDATE tb_jadwal SET kelas = ? WHERE id = ?");
+                $set_jadwal = $conn->prepare("UPDATE tb_jadwal SET kelas = ?, status = 'Sementara' WHERE id = ?");
                 $set_jadwal->bind_param('ss', $kelas, $id_jadwal);
 
 
+                $insertDetailBooking = $conn->prepare("INSERT INTO tb_detail_booking (id_booking, penanggung_jwb, kelas, keperluan) VALUES (?, ?, ?, ? )");
+                $insertDetailBooking->bind_param('ssss', $id_booking, $penanggung_jawab, $kelas, $keperluan);
 
-                if ($stmt_insert->execute()) {
+
+                // Execute Program
+                $exeInsert = $stmt_insert->execute();
+                $exeSetJadwal = $set_jadwal->execute();
+                $exeDetail = $insertDetailBooking->execute();
+
+                
+                // Kondisi Setelah Execute
+                if ( $exeInsert && $exeSetJadwal && $exeDetail ) {
                     // Update status jadwal menjadi tidak tersedia
                     
                     
@@ -113,6 +124,7 @@ if (!empty($filter_hari)) {
 
 // Query untuk mengambil jadwal tersedia
 $query_jadwal = "SELECT tj.*, tr.nama AS nama_ruangan, tr.fasilitas, tr.tipe, tr.lokasi
+                
                  FROM tb_jadwal tj
                  JOIN tb_ruangan tr ON tj.id_ruangan = tr.id
                  WHERE tj.status = 'Kosong'$filter_clause
@@ -270,6 +282,7 @@ $result_tipe = $conn->query($query_tipe);
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                                 </div>
                                 <div class="modal-body">
+                                <input type="hidden" name="id_jadwal" value="<?= $jadwal['id']; ?>">
                                     <div class="row">
                                     <!-- Gambar ruangan -->
                                     <div class="col-md-6">
@@ -296,7 +309,7 @@ $result_tipe = $conn->query($query_tipe);
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                    <button type="button" class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">
+                                    <button type="button" class="btn btn-primary" data-bs-target="#bookingModal2<?php echo $jadwal['id']; ?>" data-bs-toggle="modal">
                                         <i class="fas fa-paper-plane me-1"></i> Isi Data
                                     </button>
                                 </div>
@@ -306,7 +319,7 @@ $result_tipe = $conn->query($query_tipe);
 
 
                         <!-- Modal Booking 2 -->
-                        <div class="modal fade" id="exampleModalToggle2" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel<?php echo $jadwal['id']; ?>" aria-hidden="true">
+                        <div class="modal fade" id="bookingModal2<?php echo $jadwal['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel<?php echo $jadwal['id']; ?>" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -317,6 +330,7 @@ $result_tipe = $conn->query($query_tipe);
                                     </div>
                                     <form method="POST" action="">
                                         <div class="modal-body">
+                                        <input type="hidden" name="id_jadwal" value="<?= $jadwal['id']; ?>">
                                             <div class="mb-3">
                                                 <label class="form-label">Keperluan/Tujuan Penggunaan</label>
                                                 <select name="keperluan" id="" class="form-control" required>
@@ -340,7 +354,7 @@ $result_tipe = $conn->query($query_tipe);
                                                 <input type="text" name="penanggung_jawab" class="form-control">
                                             </div>
 
-                                            <input type="hidden" name="id_jadwal" value="<?php echo $jadwal['id']; ?>">
+                                            
                                             
                                             
                                             

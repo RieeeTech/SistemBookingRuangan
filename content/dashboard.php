@@ -45,7 +45,7 @@ if (isAdmin()) {
     // Statistik booking hari ini
     $query_today_bookings = "SELECT COUNT(*) as total_today FROM tb_booking tb 
                             JOIN tb_jadwal tj ON tb.id_jadwal = tj.id 
-                            WHERE tj.tanggal = CURDATE()";
+                            WHERE tb.created_at = CURDATE()";
     $result_today = $conn->query($query_today_bookings);
     $today_bookings = $result_today->fetch_assoc()['total_today'];
     
@@ -151,7 +151,7 @@ $conn->close();
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
         <div class="d-none d-lg-inline-block">
-            <span class="text-muted">Selamat datang, <?php echo $_SESSION['nama_lengkap']; ?>!</span>
+            <span class="text-muted">Selamat datang, <?= $_SESSION['nama_lengkap']; ?>!</span>
         </div>
     </div>
 
@@ -166,7 +166,7 @@ $conn->close();
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     Total Ruangan</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $total_ruangan; ?></div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $total_ruangan; ?></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-door-open fa-2x text-gray-300"></i>
@@ -184,7 +184,7 @@ $conn->close();
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                     Total Jadwal</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $total_jadwal; ?></div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $total_jadwal; ?></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -202,7 +202,7 @@ $conn->close();
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                     Total Booking</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $total_booking; ?></div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $total_booking; ?></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
@@ -220,7 +220,7 @@ $conn->close();
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                     Total Mahasiswa</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $total_mahasiswa; ?></div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $total_mahasiswa; ?></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-users fa-2x text-gray-300"></i>
@@ -241,7 +241,7 @@ $conn->close();
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
                                     Booking Hari Ini</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $today_bookings; ?></div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $today_bookings; ?></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-calendar-day fa-2x text-gray-300"></i>
@@ -259,7 +259,7 @@ $conn->close();
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                     Perlu Persetujuan</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $pending_admin; ?></div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $pending_admin; ?></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
@@ -295,10 +295,10 @@ $conn->close();
                             <tbody>
                                 <?php while ($row = $result_recent_bookings->fetch_assoc()): ?>
                                     <tr>
-                                        <td><?php echo htmlspecialchars($row['nama_lengkap']); ?></td>
-                                        <td><?php echo htmlspecialchars($row['nama']); ?></td>
+                                        <td><?= htmlspecialchars($row['nama_lengkap']); ?></td>
+                                        <td><?= htmlspecialchars($row['nama']); ?></td>
                                         
-                                        <td><?php echo formatWaktu($row['jam_mulai']) . ' - ' . formatWaktu($row['jam_selesai']); ?></td>
+                                        <td><?= formatWaktu($row['jam_mulai']) . ' - ' . formatWaktu($row['jam_selesai']); ?></td>
                                         <td>
                                             <?php
                                             $badge_class = '';
@@ -319,17 +319,17 @@ $conn->close();
                                                     $badge_class = 'badge bg-light text-dark';
                                             }
                                             ?>
-                                            <span class="<?php echo $badge_class; ?>"><?php echo ucfirst($row['status']); ?></span>
+                                            <span class="<?= $badge_class; ?>"><?= ucfirst($row['status']); ?></span>
                                         </td>
                                         <td>
-                                            <a href="detail_booking.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-info" title="Lihat Detail">
+                                            <a href="detail_booking.php?id=<?= $row['id']; ?>" class="btn btn-sm btn-info" title="Lihat Detail">
                                                 <i class="bi bi-eye"></i>
                                             </a>
                                             <?php if ($row['status'] == 'pending'): ?>
-                                                <a href="approve_booking.php?id=<?php echo $row['id']; ?>&action=approve" class="btn btn-sm btn-success" title="Setujui" onclick="return confirm('Setujui booking ini?')">
+                                                <a href="approve_booking.php?id=<?= $row['id']; ?>&action=approve" class="btn btn-sm btn-success" title="Setujui" onclick="return confirm('Setujui booking ini?')">
                                                     <i class="bi bi-check-lg"></i>
                                                 </a>
-                                                <a href="approve_booking.php?id=<?php echo $row['id']; ?>&action=reject" class="btn btn-sm btn-danger" title="Tolak" onclick="return confirm('Tolak booking ini?')">
+                                                <a href="approve_booking.php?id=<?= $row['id']; ?>&action=reject" class="btn btn-sm btn-danger" title="Tolak" onclick="return confirm('Tolak booking ini?')">
                                                     <i class="bi bi-x-lg"></i>
                                                 </a>
                                             <?php endif; ?>
@@ -359,7 +359,7 @@ $conn->close();
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     Total Booking</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $total_bookings; ?></div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $total_bookings; ?></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
@@ -377,7 +377,7 @@ $conn->close();
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                     Menunggu</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $pending_bookings; ?></div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $pending_bookings; ?></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-clock fa-2x text-gray-300"></i>
@@ -395,7 +395,7 @@ $conn->close();
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                     Disetujui</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $approved_bookings; ?></div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $approved_bookings; ?></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-check-circle fa-2x text-gray-300"></i>
@@ -413,7 +413,7 @@ $conn->close();
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                     Ditolak</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $rejected_bookings; ?></div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $rejected_bookings; ?></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-times-circle fa-2x text-gray-300"></i>
@@ -433,7 +433,7 @@ $conn->close();
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                     Booking Hari Ini</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $today_user_bookings; ?></div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $today_user_bookings; ?></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-calendar-day fa-2x text-gray-300"></i>
@@ -449,11 +449,11 @@ $conn->close();
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Booking Terbaru Saya</h6>
                 <div>
-                    <a href="booking.php" class="btn btn-sm btn-success shadow-sm me-2">
-                        <i class="fas fa-plus fa-sm text-white-50"></i> Booking Baru
+                    <a href="?page=booking" class="btn btn-sm btn-success shadow-sm me-2">
+                        <i class="bi bi-plus text-white-50"></i> Booking Baru
                     </a>
-                    <a href="riwayat_booking.php" class="btn btn-sm btn-primary shadow-sm">
-                        <i class="fas fa-list fa-sm text-white-50"></i> Lihat Semua
+                    <a href="?page=myBooking" class="btn btn-sm btn-primary shadow-sm">
+                        <i class="bi bi-list text-white-50"></i> Lihat Semua
                     </a>
                 </div>
             </div>
@@ -464,9 +464,9 @@ $conn->close();
                             <thead>
                                 <tr>
                                     <th>Ruangan</th>
-                                    <th>Tanggal</th>
                                     <th>Waktu</th>
                                     <th>Keperluan</th>
+                                    <th>Diajukan Pada</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -474,15 +474,16 @@ $conn->close();
                             <tbody>
                                 <?php while ($row = $result_my_bookings->fetch_assoc()): ?>
                                     <tr>
-                                        <td><?php echo htmlspecialchars($row['nama']); ?></td>
-                                        <td><?php echo formatTanggal($row['tanggal']); ?></td>
-                                        <td><?php echo formatWaktu($row['jam_mulai']) . ' - ' . formatWaktu($row['jam_selesai']); ?></td>
+                                        <td><?= htmlspecialchars($row['nama']); ?></td>
+                                        
+                                        <td><?= formatWaktu($row['jam_mulai']) . ' - ' . formatWaktu($row['jam_selesai']); ?></td>
                                         <td>
                                             <?php 
                                             $keperluan = htmlspecialchars($row['keperluan']);
                                             echo strlen($keperluan) > 50 ? substr($keperluan, 0, 50) . '...' : $keperluan;
                                             ?>
                                         </td>
+                                        <td><?= htmlspecialchars($row['created_at']); ?></td>
                                         <td>
                                             <?php
                                             $badge_class = '';
@@ -503,15 +504,15 @@ $conn->close();
                                                     $badge_class = 'badge bg-light text-dark';
                                             }
                                             ?>
-                                            <span class="<?php echo $badge_class; ?>"><?php echo ucfirst($row['status']); ?></span>
+                                            <span class="<?= $badge_class; ?>"><?= ucfirst($row['status']); ?></span>
                                         </td>
                                         <td>
-                                            <a href="detail_booking_mahasiswa.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-info" title="Lihat Detail">
-                                                <i class="fas fa-eye"></i>
+                                            <a href="detail_booking_mahasiswa.php?id=<?= $row['id']; ?>" class="btn btn-sm btn-info" title="Lihat Detail">
+                                                <i class="bi bi-eye"></i>
                                             </a>
                                             <?php if ($row['status'] == 'pending'): ?>
-                                                <a href="cancel_booking.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-danger" title="Batalkan" onclick="return confirm('Yakin ingin membatalkan booking ini?')">
-                                                    <i class="fas fa-times"></i>
+                                                <a href="cancel_booking.php?id=<?= $row['id']; ?>" class="btn btn-sm btn-danger" title="Batalkan" onclick="return confirm('Yakin ingin membatalkan booking ini?')">
+                                                    <i class="bi bi-x-lg"></i>
                                                 </a>
                                             <?php endif; ?>
                                         </td>
@@ -524,42 +525,16 @@ $conn->close();
                     <div class="text-center py-4">
                         <i class="fas fa-calendar-times fa-3x mb-3 text-gray-300"></i>
                         <p class="text-muted">Anda belum memiliki booking ruangan.</p>
-                        <a href="booking.php" class="btn btn-primary">
-                            <i class="fas fa-plus me-1"></i> Booking Sekarang
+                        <a href="?page=booking" class="btn btn-primary">
+                            <i class="bi bi-plus"></i> Booking Sekarang
                         </a>
                     </div>
                 <?php endif; ?>
             </div>
         </div>
 
-        <!-- Quick Actions untuk Mahasiswa -->
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Aksi Cepat</h6>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <a href="booking.php" class="btn btn-success btn-block">
-                            <i class="fas fa-plus mb-2"></i><br>
-                            Booking Ruangan Baru
-                        </a>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <a href="jadwal_ruangan.php" class="btn btn-info btn-block">
-                            <i class="fas fa-calendar-alt mb-2"></i><br>
-                            Lihat Jadwal Ruangan
-                        </a>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <a href="riwayat_booking.php" class="btn btn-primary btn-block">
-                            <i class="fas fa-history mb-2"></i><br>
-                            Riwayat Booking
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+        
 
     <?php else: ?>
         <!-- Jika role tidak dikenali -->
@@ -598,12 +573,12 @@ setTimeout(function() {
 
 // Tampilkan notifikasi jika ada
 <?php if (isset($_SESSION['success_message'])): ?>
-    $('#notificationMessage').html('<div class="alert alert-success"><?php echo $_SESSION['success_message']; unset($_SESSION['success_message']); ?></div>');
+    $('#notificationMessage').html('<div class="alert alert-success"><?= $_SESSION['success_message']; unset($_SESSION['success_message']); ?></div>');
     $('#notificationModal').modal('show');
 <?php endif; ?>
 
 <?php if (isset($_SESSION['error_message'])): ?>
-    $('#notificationMessage').html('<div class="alert alert-danger"><?php echo $_SESSION['error_message']; unset($_SESSION['error_message']); ?></div>');
+    $('#notificationMessage').html('<div class="alert alert-danger"><?= $_SESSION['error_message']; unset($_SESSION['error_message']); ?></div>');
     $('#notificationModal').modal('show');
 <?php endif; ?>
 </script>
